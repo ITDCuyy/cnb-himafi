@@ -17,6 +17,8 @@ export function TopNav() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = React.useState("");
 
+  const role = session?.user.role ?? "guest"; // Default to 'guest' if no session
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -49,6 +51,16 @@ export function TopNav() {
           <Link href="/news">News</Link>
           <Link href="/blog">Blog</Link>
           <Link href="/faq">FAQ</Link>
+          {["admin", "member"].includes(role) && (
+            <Link href="/link" className="font-semibold text-primary">
+              Link shortener
+            </Link>
+          )}
+          {["admin"].includes(role) && (
+            <Link href="/admin" className="font-semibold text-primary">
+              Admin
+            </Link>
+          )}
         </nav>
 
         {/* Right: Search, User, and Mobile Menu */}
@@ -99,6 +111,22 @@ export function TopNav() {
                   <Link href="/news">News</Link>
                   <Link href="/blog">Blog</Link>
                   <Link href="/faq">FAQ</Link>
+                  {["admin", "member"].includes(role) && (
+                    <Link
+                      href="/link"
+                      className="font-semibold text-destructive"
+                    >
+                      Link shortener
+                    </Link>
+                  )}
+                  {["admin"].includes(role) && (
+                    <Link
+                      href="/admin"
+                      className="font-semibold text-destructive"
+                    >
+                      Admin
+                    </Link>
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>
