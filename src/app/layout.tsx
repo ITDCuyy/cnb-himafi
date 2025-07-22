@@ -19,7 +19,7 @@ import { SessionProvider } from "next-auth/react";
 export const metadata: Metadata = {
   title: "HIMAFI ITB",
   description: "Himpunan Mahasiswa Fisika ITB",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.webp" }],
 };
 
 export default async function RootLayout({
