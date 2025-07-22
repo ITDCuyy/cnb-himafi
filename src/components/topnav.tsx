@@ -79,7 +79,7 @@ export function TopNav() {
                   alt="User avatar"
                   className="h-8 w-8 rounded-full"
                 />
-                <Link href="/api/auth/signout">
+                <Link href="/auth/signout">
                   <Button variant="outline">Sign Out</Button>
                 </Link>
               </div>
