@@ -45,6 +45,45 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
+  // Protected procedure - get post by ID including drafts for author/admin
+  getByIdWithDrafts: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const post = await ctx.db.query.posts.findFirst({
+        where: eq(posts.id, input.id),
+        with: {
+          author: {
+            columns: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      });
+
+      // If not found, return null
+      if (!post) {
+        return null;
+      }
+
+      // If published, anyone can see it
+      if (post.published) {
+        return post;
+      }
+
+      // If draft, only author or admin can see it
+      if (
+        post.authorId === ctx.session.user.id ||
+        ctx.session.user.role === "admin"
+      ) {
+        return post;
+      }
+
+      // Otherwise, unauthorized
+      return null;
+    }),
+
   // Member/Admin procedures - only members and admins can create/edit posts
   create: memberProcedure
     .input(

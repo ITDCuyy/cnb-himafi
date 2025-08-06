@@ -31,7 +31,10 @@ export default function PostViewPage() {
     data: post,
     isLoading,
     error,
-  } = api.post.getById.useQuery({ id: postId }, { enabled: !!postId });
+  } = api.post.getByIdWithDrafts.useQuery(
+    { id: postId },
+    { enabled: !!postId },
+  );
 
   const { data: session } = api.authorization.currentSession.useQuery();
 

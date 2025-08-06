@@ -15,6 +15,7 @@ import {
   Plus,
   ArrowRight,
   Clock,
+  FileText,
 } from "lucide-react";
 import { formatDistanceToNow, format } from "date-fns";
 
@@ -78,12 +79,20 @@ export default function BlogPage() {
         </div>
 
         {canCreatePosts && (
-          <Link href="/blog/create">
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Write Blog Post
-            </Button>
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href="/blog/manage">
+              <Button variant="outline">
+                <FileText className="mr-2 h-4 w-4" />
+                Manage Posts
+              </Button>
+            </Link>
+            <Link href="/blog/create">
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Write Blog Post
+              </Button>
+            </Link>
+          </div>
         )}
       </div>
 

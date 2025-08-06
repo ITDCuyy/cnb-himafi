@@ -39,10 +39,11 @@ import {
   Edit,
   Eye,
   Trash2,
-  FileText,
-  Newspaper,
   Calendar,
   User,
+  FileText,
+  BookOpen,
+  Megaphone,
 } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
@@ -55,8 +56,8 @@ export default function PostsManagementPage() {
     "all" | "published" | "draft"
   >("all");
 
-  // Fetch all posts (you might want to add pagination here)
-  const { data: posts, isLoading, refetch } = api.post.getAll.useQuery();
+  // Fetch user's own posts (including drafts)
+  const { data: posts, isLoading, refetch } = api.post.getMyPosts.useQuery();
 
   // Delete post mutation
   const deletePost = api.post.delete.useMutation({
@@ -111,17 +112,31 @@ export default function PostsManagementPage() {
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Posts Management</h1>
+          <h1 className="text-3xl font-bold">Manage My Posts</h1>
           <p className="text-muted-foreground">
-            Manage all blog posts and news articles
+            View and manage your published and draft content
           </p>
         </div>
-        <Link href="/posts/create">
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Create New Post
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/drafts">
+            <Button variant="outline">
+              <FileText className="mr-2 h-4 w-4" />
+              View Drafts
+            </Button>
+          </Link>
+          <Link href="/blog/create">
+            <Button>
+              <BookOpen className="mr-2 h-4 w-4" />
+              New Blog
+            </Button>
+          </Link>
+          <Link href="/news/create">
+            <Button>
+              <Megaphone className="mr-2 h-4 w-4" />
+              New News
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -316,7 +331,9 @@ export default function PostsManagementPage() {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">{post.author.name}</span>
+                        <span className="text-sm">
+                          {post.author?.name ?? "Unknown Author"}
+                        </span>
                       </div>
                     </TableCell>
 
