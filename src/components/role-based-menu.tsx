@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import {
-  hasRole,
   canCreatePosts,
   canCreateLinks,
   canManageUsers,
@@ -55,14 +55,17 @@ export function RoleBasedMenu() {
               Content Creation (Members & Admins)
             </h4>
             <div className="space-y-1">
-              <Button variant="secondary" size="sm">
-                Create Post
+              <Button variant="secondary" size="sm" asChild>
+                <Link href="/blog/create">Create Blog Post</Link>
               </Button>
-              <Button variant="secondary" size="sm">
-                Create Blog
+              <Button variant="secondary" size="sm" asChild>
+                <Link href="/news/create">Create News</Link>
               </Button>
-              <Button variant="outline" size="sm">
-                Manage My Posts
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/posts/create">Create General Post</Link>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/posts/manage">Manage My Posts</Link>
               </Button>
             </div>
           </div>

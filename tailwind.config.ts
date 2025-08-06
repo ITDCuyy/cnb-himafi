@@ -1,5 +1,6 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -93,7 +94,32 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      hyphens: {
+        none: "none",
+        manual: "manual",
+        auto: "auto",
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    tailwindcssAnimate,
+    function ({
+      addUtilities,
+    }: {
+      addUtilities: (utilities: Record<string, Record<string, string>>) => void;
+    }) {
+      const newUtilities = {
+        ".hyphens-none": {
+          hyphens: "none",
+        },
+        ".hyphens-manual": {
+          hyphens: "manual",
+        },
+        ".hyphens-auto": {
+          hyphens: "auto",
+        },
+      };
+      addUtilities(newUtilities);
+    },
+  ],
 } satisfies Config;
