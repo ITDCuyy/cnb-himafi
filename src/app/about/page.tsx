@@ -126,31 +126,113 @@ export default function AboutPage() {
     },
   ];
 
-  const organogram = {
-    president: { name: "Ketua Umum", person: "Chad Physics Leader" },
-    vicePresident: { name: "Wakil Ketua", person: "Vice Chad" },
-    departments: [
+  const board = {
+    president: { name: "Rafiq Althaf R. Harjadinata", nim: "10222055" },
+    secretariat: {
+      generalSecretary: { name: "Huwaida Badia Abidin", nim: "10222062" },
+      headOfSecretary: { name: "Sekar Ayu Widhastri", nim: "10222020" },
+      headOfTreasurer: { name: "Nasya Nabila", nim: "10222112" },
+      headOfHE: { name: "Fauzan Akbar Ramadhan", nim: "10222114" },
+      headOfOC: { name: "Al Farabi Haikal", nim: "10222086" },
+    },
+    ministries: [
       {
-        name: "Departemen Akademik",
-        head: "Kepala Dept. Akademik",
-        divisions: ["Divisi Tutorial", "Divisi Riset", "Divisi Kompetisi"],
-      },
-      {
-        name: "Departemen Sosial",
-        head: "Kepala Dept. Sosial",
-        divisions: [
-          "Divisi Event",
-          "Divisi Hubungan Masyarakat",
-          "Divisi Dokumentasi",
+        name: "Kementerian Human Capital",
+        minister: { name: "Alfatchurrachman", nim: "10222092" },
+        roles: [
+          {
+            title: "Kepala Regenerasi",
+            name: "Arya Abhyasa Wicaksana",
+            nim: "10222061",
+          },
+          {
+            title: "Wakil Kepala Regenerasi",
+            name: "Rizanti Heningtyas",
+            nim: "10222097",
+          },
+          {
+            title: "Kepala Manajemen SDM",
+            name: "Melinda Alberta",
+            nim: "10222066",
+          },
+          {
+            title: "Kepala Pengembangan SDM",
+            name: "M. Nauval Ar-Rauf",
+            nim: "10222035",
+          },
+          {
+            title: "Direktur Kreatif & Branding",
+            name: "Muhammad Kamal",
+            nim: "10222087",
+          },
         ],
       },
       {
-        name: "Departemen Internal",
-        head: "Kepala Dept. Internal",
-        divisions: [
-          "Divisi Keuangan",
-          "Divisi Kesekretariatan",
-          "Divisi Perlengkapan",
+        name: "Kementerian Kesejahteraan Mahasiswa",
+        minister: { name: "Afrah Damara Yani", nim: "10222049" },
+        roles: [
+          {
+            title: "Kepala Kebutuhan Dasar",
+            name: "Mulyadi Prasojo",
+            nim: "10222053",
+          },
+          {
+            title: "Kepala Akademik",
+            name: "Nadhim Muqsith Rabbani",
+            nim: "10222079",
+          },
+          {
+            title: "Wakil Kepala Akademik",
+            name: "Muhammad Syamsuddiin",
+            nim: "10223075",
+          },
+          {
+            title: "Kepala KAE",
+            name: "Kansha Ghaffaru Firmansyah",
+            nim: "10222017",
+          },
+        ],
+      },
+      {
+        name: "Kementerian Hubungan Masyarakat",
+        minister: { name: "Misbahullaila", nim: "10222008" },
+        roles: [
+          {
+            title: "Kepala Intrakampus",
+            name: "Rafa Zahira Suhaila",
+            nim: "10222107",
+          },
+          {
+            title: "Kepala Ekstrakampus",
+            name: "Raden Vio Brahmantyo",
+            nim: "10223058",
+          },
+          {
+            title: "Kepala Pengabdian Masyarakat",
+            name: "Anggrita Naya Maulidina",
+            nim: "10222047",
+          },
+        ],
+      },
+      {
+        name: "Kementerian Karya dan Pengetahuan",
+        minister: { name: "Elang Aditya Putra", nim: "10222006" },
+        roles: [
+          {
+            title: "Kepala ARCADE",
+            name: "Dietrich Pepalem Tarigan",
+            nim: "10223037",
+          },
+          {
+            title: "Kepala Riset & Kajian",
+            name: "Ahmad Alfian Tri Saputro",
+            nim: "10222050",
+          },
+          {
+            title: "Kepala Kreasi & Inovasi",
+            name: "Muhammad Fakhri Najmi",
+            nim: "10222010",
+          },
         ],
       },
     ],
@@ -535,13 +617,119 @@ export default function AboutPage() {
                     Struktur Organisasi
                   </CardTitle>
                   <CardDescription>
-                    Susunan kepengurusan HIMAFI ITB
+                    BP &ldquo;NAKAMA&rdquo; HIMAFI ITB 2025/2026
                   </CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="p-0">
-              <img src="organogram-dark.png" alt="Organogram" />
+            <CardContent className="space-y-8">
+              {/* President */}
+              <div className="text-center">
+                <div className="mx-auto inline-flex flex-col items-center rounded-xl border border-primary/20 bg-primary/5 px-8 py-4">
+                  <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary">
+                    <Crown className="h-5 w-5 text-primary-foreground" />
+                  </div>
+                  <p className="text-sm font-medium text-primary">Presiden</p>
+                  <p className="text-lg font-bold">{board.president.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {board.president.nim}
+                  </p>
+                </div>
+              </div>
+
+              {/* Secretariat */}
+              <div>
+                <h3 className="mb-4 text-center text-lg font-semibold">
+                  Sekretariat
+                </h3>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+                  {[
+                    {
+                      title: "Sekretaris Jenderal",
+                      ...board.secretariat.generalSecretary,
+                    },
+                    {
+                      title: "Kepala Sekretariat",
+                      ...board.secretariat.headOfSecretary,
+                    },
+                    {
+                      title: "Kepala Bendahara",
+                      ...board.secretariat.headOfTreasurer,
+                    },
+                    {
+                      title: "Kepala Rumah Tangga & Kewirausahaan",
+                      ...board.secretariat.headOfHE,
+                    },
+                    {
+                      title: "Kepala Pengawas Organisasi",
+                      ...board.secretariat.headOfOC,
+                    },
+                  ].map((person) => (
+                    <Card key={person.nim} className="border-border/50">
+                      <CardContent className="p-4 text-center">
+                        <p className="text-xs font-medium text-primary">
+                          {person.title}
+                        </p>
+                        <p className="mt-1 font-bold">{person.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {person.nim}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+
+              {/* Ministries */}
+              <div className="space-y-6">
+                <h3 className="text-center text-lg font-semibold">
+                  Kementerian
+                </h3>
+                <div className="grid gap-6 md:grid-cols-2">
+                  {board.ministries.map((ministry) => (
+                    <Card key={ministry.name} className="border-border/50">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary">
+                            <Shield className="h-4 w-4 text-primary-foreground" />
+                          </div>
+                          <div>
+                            <CardTitle className="text-base font-bold">
+                              {ministry.name}
+                            </CardTitle>
+                            <p className="text-sm text-muted-foreground">
+                              {ministry.minister.name}{" "}
+                              <span className="text-xs">
+                                ({ministry.minister.nim})
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <ul className="space-y-2">
+                          {ministry.roles.map((role) => (
+                            <li
+                              key={role.nim}
+                              className="flex items-center justify-between rounded-lg border border-border/40 px-3 py-2 text-sm"
+                            >
+                              <span className="text-muted-foreground">
+                                {role.title}
+                              </span>
+                              <span className="font-medium">{role.name}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+
+              {/* Organogram Image */}
+              <div className="overflow-hidden rounded-lg border border-border/50">
+                <img src="organogram-dark.png" alt="Organogram" />
+              </div>
             </CardContent>
           </Card>
         </div>
