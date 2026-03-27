@@ -1,41 +1,49 @@
 "use client";
 
 import type React from "react";
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Search,
-  MessageCircle,
-  Mail,
-  HelpCircle,
+  AiSettingIcon,
+  ArrowRight01Icon,
+  Cancel01Icon,
   CreditCard,
-  Settings,
-  Zap,
+  DatabaseZap,
+  HelpCircleIcon,
   Instagram,
+  Mail01Icon,
+  Message01Icon,
+  Search01Icon,
+  SparklesIcon,
   Twitter,
-  X,
-} from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+} from "@hugeicons/core-free-icons";
+
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+type FaqCategory = {
+  title: string;
+  faqs: FaqItem[];
+};
 
 export default function FAQPage() {
-  const faqCategories = useMemo(
+  const faqCategories = useMemo<FaqCategory[]>(
     () => [
       {
         title: "HIMAFI ITB",
-        icon: HelpCircle,
         faqs: [
           {
             question: "Apa itu HIMAFI ITB?",
@@ -56,7 +64,6 @@ export default function FAQPage() {
       },
       {
         title: "Keanggotaan & Partisipasi",
-        icon: CreditCard,
         faqs: [
           {
             question:
@@ -78,7 +85,6 @@ export default function FAQPage() {
       },
       {
         title: "Kegiatan Akademik & Non-Akademik",
-        icon: Settings,
         faqs: [
           {
             question:
@@ -107,7 +113,6 @@ export default function FAQPage() {
       },
       {
         title: "Administratif & Layanan",
-        icon: Zap,
         faqs: [
           {
             question:
@@ -133,7 +138,6 @@ export default function FAQPage() {
     [],
   );
 
-  // Extract all questions for dynamic placeholder
   const allQuestions = faqCategories.flatMap((category) =>
     category.faqs.map((faq) => faq.question),
   );
@@ -149,12 +153,11 @@ export default function FAQPage() {
       setCurrentQuestionIndex(
         (prevIndex) => (prevIndex + 1) % allQuestions.length,
       );
-    }, 3000);
+    }, 2800);
 
     return () => clearInterval(interval);
   }, [allQuestions.length]);
 
-  // Search functionality
   const filteredCategories = useMemo(() => {
     if (!inputValue.trim()) return faqCategories;
 
@@ -172,36 +175,17 @@ export default function FAQPage() {
       .filter((category) => category.faqs.length > 0);
   }, [inputValue, faqCategories]);
 
-  // Highlight matching text
   const highlightText = (text: string, searchTerm: string) => {
     if (!searchTerm.trim()) return text;
 
     const escapedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const regex = new RegExp(`(${escapedTerm})`, "gi");
-
-    // Use dangerouslySetInnerHTML to avoid React splitting issues
     const highlightedText = text.replace(
       regex,
-      '<mark class="bg-primary/20 text-primary rounded">$1</mark>',
+      '<mark class="rounded bg-primary/25 px-1 text-primary">$1</mark>',
     );
 
     return <span dangerouslySetInnerHTML={{ __html: highlightedText }} />;
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-
-  const handleBlur = () => {
-    setIsFocused(false);
-  };
-
-  const clearSearch = () => {
-    setInputValue("");
   };
 
   const isSearching = inputValue.trim().length > 0;
@@ -209,45 +193,55 @@ export default function FAQPage() {
 
   return (
     <main className="bg-background text-foreground">
-      {/* Hero Section */}
-      <section className="flex h-[60vh] flex-col items-center justify-center bg-gradient-to-b from-primary/10 to-transparent text-center">
-        <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-          <HelpCircle className="h-8 w-8 text-primary-foreground" />
-        </div>
-        <h1 className="text-5xl font-bold tracking-tight md:text-6xl">
-          Frequently Asked Questions
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Masih bingung soal HIMAFI? Tenang, kami bantu jawab di sini!
-        </p>
+      <section className="relative isolate overflow-hidden border-b border-border/40">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(120%_75%_at_10%_0%,hsl(var(--primary)/0.18),transparent_55%),radial-gradient(110%_70%_at_90%_20%,hsl(var(--accent)/0.5),transparent_48%)]" />
+        <div className="mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-24">
+          <div className="space-y-6 text-center">
+            <Badge className="rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.12em] text-primary">
+              Pusat Bantuan HIMAFI
+            </Badge>
+            <h1 className="mx-auto max-w-4xl text-5xl font-extrabold leading-tight tracking-tight md:text-6xl lg:text-7xl">
+              Frequently Asked Questions
+            </h1>
+            <p className="mx-auto max-w-3xl text-lg font-medium leading-9 text-foreground/85 md:text-xl">
+              Jawaban cepat untuk pertanyaan paling umum tentang keanggotaan,
+              kegiatan, dan layanan HIMAFI ITB.
+            </p>
+          </div>
 
-        {/* Search Bar */}
-        <div className="mx-auto mt-8 w-full max-w-2xl px-4">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
+          <div className="mx-auto mt-10 w-full max-w-3xl">
             <div className="relative">
+              <HugeiconsIcon
+                icon={Search01Icon}
+                size={20}
+                className="absolute left-4 top-1/2 z-10 -translate-y-1/2 text-foreground/60"
+              />
+
               <Input
                 value={inputValue}
-                onChange={handleInputChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
+                onChange={(e) => setInputValue(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 placeholder={
-                  isFocused || inputValue ? "Ajukan pertanyaan..." : ""
+                  isFocused || inputValue ? "Cari pertanyaan..." : ""
                 }
-                className="h-12 pl-12 pr-12"
+                className="h-14 rounded-2xl border-border/70 bg-card/90 pl-12 pr-12 text-base font-medium"
               />
+
               {inputValue && (
                 <button
-                  onClick={clearSearch}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 transform text-muted-foreground transition-colors hover:text-foreground"
+                  onClick={() => setInputValue("")}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/55 transition-colors hover:text-foreground"
+                  aria-label="Hapus pencarian"
                 >
-                  <X className="h-4 w-4" />
+                  <HugeiconsIcon icon={Cancel01Icon} size={18} />
                 </button>
               )}
+
               {!isFocused && !inputValue && allQuestions.length > 0 && (
-                <div className="pointer-events-none absolute left-12 right-4 top-1/2 h-6 -translate-y-1/2 transform overflow-hidden">
+                <div className="pointer-events-none absolute left-12 right-4 top-1/2 h-6 -translate-y-1/2 overflow-hidden">
                   <div
-                    className="transition-transform duration-500 ease-in-out"
+                    className="transition-transform duration-500 ease-out"
                     style={{
                       transform: `translateY(-${currentQuestionIndex * 24}px)`,
                     }}
@@ -255,26 +249,22 @@ export default function FAQPage() {
                     {allQuestions.map((question, index) => (
                       <div
                         key={index}
-                        className="flex h-6 items-center overflow-hidden text-sm text-muted-foreground"
+                        className="flex h-6 items-center overflow-hidden text-sm font-medium text-foreground/60"
                         style={{
-                          width: "calc(100% - 24px)",
                           whiteSpace: "nowrap",
                           textOverflow: "ellipsis",
                         }}
                       >
-                        {`Cari: "${question}"`}
+                        {`Cari: \"${question}\"`}
                       </div>
                     ))}
                   </div>
                 </div>
               )}
             </div>
-          </div>
 
-          {/* Search Results Summary */}
-          {isSearching && (
-            <div className="mt-4 text-center">
-              <p className="text-sm text-muted-foreground">
+            {isSearching && (
+              <p className="mt-4 text-center text-base font-medium leading-8 text-foreground/75">
                 {hasResults ? (
                   <>
                     Ditemukan{" "}
@@ -283,144 +273,154 @@ export default function FAQPage() {
                       0,
                     )}{" "}
                     hasil untuk{" "}
-                    <span className="font-semibold text-foreground">
-                      &quot;{inputValue}&quot;
-                    </span>
+                    <span className="font-bold">&quot;{inputValue}&quot;</span>
                   </>
                 ) : (
                   <>
                     Tidak ada hasil untuk{" "}
-                    <span className="font-semibold text-foreground">
-                      &quot;{inputValue}&quot;
-                    </span>
+                    <span className="font-bold">&quot;{inputValue}&quot;</span>
                   </>
                 )}
               </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </section>
 
-      {/* FAQ Content */}
-      <section className="px-4 py-16 md:px-20">
-        <div className="mx-auto max-w-5xl space-y-8">
+      <section className="px-6 py-14 md:px-10 md:py-20">
+        <div className="mx-auto max-w-6xl space-y-6">
           {!hasResults && isSearching ? (
-            <Card>
-              <CardContent className="p-12 text-center">
-                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                  <Search className="h-8 w-8 text-muted-foreground" />
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">Tidak ada hasil</h3>
-                <p className="mb-4 text-muted-foreground">
-                  Kami tidak dapat menemukan FAQ yang cocok dengan pencarian
-                  Anda. Coba kata kunci yang berbeda atau jelajahi semua
-                  kategori di bawah.
+            <Card className="border-primary/20 bg-card/90">
+              <CardContent className="space-y-4 p-10 text-center">
+                <HugeiconsIcon
+                  icon={Search01Icon}
+                  size={28}
+                  className="mx-auto text-primary"
+                />
+                <h3 className="text-3xl font-bold">Tidak ada hasil</h3>
+                <p className="mx-auto max-w-2xl text-lg font-medium leading-9 text-foreground/80">
+                  Kami belum menemukan FAQ yang cocok dengan pencarian Anda.
+                  Coba kata kunci lain atau kembali ke semua kategori.
                 </p>
-                <Button onClick={clearSearch} variant="outline">
+                <Button
+                  onClick={() => setInputValue("")}
+                  variant="outline"
+                  className="rounded-full px-6 text-base font-bold"
+                >
                   Hapus pencarian
                 </Button>
               </CardContent>
             </Card>
           ) : (
-            filteredCategories.map((category, categoryIndex) => {
-              const IconComponent = category.icon;
-              return (
-                <Card key={categoryIndex}>
-                  <CardHeader>
-                    <div className="flex items-center space-x-4">
-                      <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary">
-                        <IconComponent className="h-6 w-6 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-2xl font-bold">
-                          {category.title}
-                        </CardTitle>
-                        <CardDescription>
-                          {isSearching ? (
-                            <>{category.faqs.length} pertanyaan yang cocok</>
-                          ) : (
-                            <>
-                              Pertanyaan umum tentang{" "}
-                              {category.title.toLowerCase()}
-                            </>
-                          )}
-                        </CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <Accordion
-                      type="single"
-                      collapsible
-                      className="w-full space-y-2"
-                    >
-                      {category.faqs.map((faq, faqIndex) => (
-                        <AccordionItem
-                          key={faqIndex}
-                          value={`item-${categoryIndex}-${faqIndex}`}
-                          className="rounded-lg border px-4"
-                        >
-                          <AccordionTrigger className="py-4 text-left font-semibold hover:no-underline">
-                            {isSearching
-                              ? highlightText(faq.question, inputValue)
-                              : faq.question}
-                          </AccordionTrigger>
-                          <AccordionContent className="pb-4 text-muted-foreground">
-                            {isSearching
-                              ? highlightText(faq.answer, inputValue)
-                              : faq.answer}
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
-                  </CardContent>
-                </Card>
-              );
-            })
+            filteredCategories.map((category, categoryIndex) => (
+              <Card
+                key={category.title}
+                className="border-primary/20 bg-card/90"
+              >
+                <CardHeader>
+                  <CardTitle className="text-3xl font-bold leading-tight md:text-4xl">
+                    {category.title}
+                  </CardTitle>
+                  <p className="text-base font-medium leading-8 text-foreground/75">
+                    {isSearching
+                      ? `${category.faqs.length} pertanyaan yang cocok`
+                      : `Pertanyaan umum tentang ${category.title.toLowerCase()}`}
+                  </p>
+                </CardHeader>
+
+                <CardContent>
+                  <Accordion type="single" collapsible className="space-y-3">
+                    {category.faqs.map((faq, faqIndex) => (
+                      <AccordionItem
+                        key={faqIndex}
+                        value={`item-${categoryIndex}-${faqIndex}`}
+                        className="rounded-xl border border-border/70 bg-background/75 px-4"
+                      >
+                        <AccordionTrigger className="py-4 text-left text-lg font-bold leading-8 hover:no-underline">
+                          {isSearching
+                            ? highlightText(faq.question, inputValue)
+                            : faq.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="pb-4 text-base font-medium leading-8 text-foreground/80">
+                          {isSearching
+                            ? highlightText(faq.answer, inputValue)
+                            : faq.answer}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </CardContent>
+              </Card>
+            ))
           )}
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="bg-muted/40 px-4 py-16 md:px-20">
-        <div className="mx-auto max-w-4xl">
-          <Card>
-            <CardHeader className="text-center">
-              <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-                <MessageCircle className="h-8 w-8 text-primary-foreground" />
-              </div>
-              <CardTitle className="text-3xl font-bold">
-                Masih ada pertanyaan?
-              </CardTitle>
-              <CardDescription className="mt-2 text-lg">
-                Tidak menemukan yang Anda cari? Kami siap membantu Anda!
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pb-8">
-              <div className="flex flex-col justify-center gap-4 sm:flex-row">
-                <Button className="flex h-12 items-center gap-3 px-8">
-                  <Instagram className="h-5 w-5" />
-                  Follow Instagram
-                </Button>
-                <Button className="flex h-12 items-center gap-3 px-8">
-                  <Twitter className="h-5 w-5" />
-                  Follow Twitter
-                </Button>
-                <Button
-                  variant="outline"
-                  className="flex h-12 items-center gap-3 px-8"
-                >
-                  <Mail className="h-5 w-5" />
-                  Email Support
-                </Button>
-              </div>
-              <div className="mt-6 rounded-lg border bg-muted/50 p-4 text-center">
-                <p className="text-sm font-medium text-muted-foreground">
-                  📱 Hubungi kami melalui media sosial atau email
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+      <section className="bg-muted/30 px-6 py-14 md:px-10 md:py-20">
+        <div className="mx-auto max-w-6xl rounded-3xl border border-primary/25 bg-card/90 p-8 text-center md:p-10">
+          <HugeiconsIcon
+            icon={Message01Icon}
+            size={26}
+            className="mx-auto text-primary"
+          />
+          <h3 className="mt-3 text-3xl font-bold leading-tight md:text-4xl">
+            Masih ada pertanyaan?
+          </h3>
+          <p className="mx-auto mt-3 max-w-3xl text-lg font-medium leading-9 text-foreground/85">
+            Kalau belum menemukan jawaban yang dicari, kami siap membantu lewat
+            media sosial atau email resmi HIMAFI ITB.
+          </p>
+
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+            <Button asChild className="rounded-full px-6 text-base font-bold">
+              <Link
+                href="https://www.instagram.com/himafi.itb"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2"
+              >
+                <HugeiconsIcon icon={Instagram} size={18} />
+                Follow Instagram
+              </Link>
+            </Button>
+
+            <Button asChild className="rounded-full px-6 text-base font-bold">
+              <Link
+                href="https://x.com/HIMAFI_ITB"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2"
+              >
+                <HugeiconsIcon icon={Twitter} size={18} />
+                Follow X
+              </Link>
+            </Button>
+
+            <Button
+              asChild
+              variant="outline"
+              className="rounded-full px-6 text-base font-bold"
+            >
+              <Link
+                href="mailto:himafi_itb@km.itb.ac.id"
+                className="inline-flex items-center gap-2"
+              >
+                <HugeiconsIcon icon={Mail01Icon} size={18} />
+                Email Support
+              </Link>
+            </Button>
+          </div>
+
+          <Button
+            asChild
+            variant="ghost"
+            className="mt-4 text-base font-bold text-primary hover:bg-transparent"
+          >
+            <Link href="/" className="inline-flex items-center gap-2">
+              Kembali ke Beranda
+              <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+            </Link>
+          </Button>
         </div>
       </section>
     </main>

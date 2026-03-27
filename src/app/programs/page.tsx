@@ -1,13 +1,15 @@
-import { Card, CardContent } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
+import { Card, CardContent } from "~/components/ui/card";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Sparkles,
-  Rocket,
-  Heart,
-  GraduationCap,
-  ArrowRight,
-} from "lucide-react";
+  ArrowRight01Icon,
+  Award02Icon,
+  Book02Icon,
+  Group01Icon,
+  Rocket01Icon,
+  SparklesIcon,
+} from "@hugeicons/core-free-icons";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -52,34 +54,58 @@ const programs = [
 
 export default function ProgramsPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 via-transparent to-transparent px-6 py-20">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm text-primary">
-            <Sparkles className="h-4 w-4" />
-            <span>Program Unggulan</span>
+    <main className="bg-background text-foreground">
+      <section className="relative isolate overflow-hidden border-b border-border/40">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(120%_75%_at_10%_0%,hsl(var(--primary)/0.18),transparent_55%),radial-gradient(110%_70%_at_90%_20%,hsl(var(--accent)/0.5),transparent_48%)]" />
+        <div className="mx-auto  max-w-6xl gap-10 px-6 py-16 md:px-10 md:py-24  lg:items-center">
+          <div className="space-y-6">
+            <Badge className="rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.12em] text-primary">
+              Program Unggulan
+            </Badge>
+
+            <h1 className="max-w-3xl text-5xl font-extrabold leading-tight tracking-tight md:text-6xl lg:text-7xl">
+              Program-Program HIMAFI ITB
+            </h1>
+            <p className="max-w-2xl text-lg font-medium leading-9 text-foreground/85 md:text-xl">
+              Pilar kegiatan yang memperkuat akademik, kesiapan karir,
+              pengabdian masyarakat, dan regenerasi organisasi.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                asChild
+                className="group rounded-full px-6 text-base font-bold"
+              >
+                <Link href="/about" className="inline-flex items-center gap-2">
+                  Tentang HIMAFI
+                  <HugeiconsIcon
+                    icon={ArrowRight01Icon}
+                    size={18}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-full px-6 text-base font-bold"
+              >
+                <Link href="/faq">Buka FAQ</Link>
+              </Button>
+            </div>
           </div>
-          <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-            Program-Program
-            <span className="block text-primary">HIMAFI ITB</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Berbagai program andalan yang telah kami kembangkan untuk mendukung
-            pengembangan akademik, keprofesian, dan pengabdian masyarakat
-          </p>
+
+          
         </div>
       </section>
 
-      {/* Image Grid Teaser */}
-      <section className="px-6 pb-12 md:px-20">
+      <section className="px-6 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {programs.map((program) => (
               <Card
                 key={program.title}
-                className="group overflow-hidden border-border/50 p-0"
+                className="group overflow-hidden border-border/60 bg-card/90 p-0"
               >
                 <CardContent className="p-0">
                   <div className="relative aspect-[4/3]">
@@ -89,9 +115,9 @@ export default function ProgramsPage() {
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-4">
-                      <p className="text-sm font-semibold text-white">
+                      <p className="text-base font-bold text-white">
                         {program.title}
                       </p>
                     </div>
@@ -103,61 +129,58 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      {/* Program Sections - Alternating Layout */}
       {programs.map((program, index) => {
         const isEven = index % 2 === 0;
 
         return (
           <section
             key={program.title}
-            className={`px-6 py-16 md:px-20 ${!isEven ? "bg-muted/30" : ""}`}
+            className={`px-6 py-14 md:px-10 md:py-20 ${!isEven ? "bg-muted/25" : ""}`}
           >
             <div className="mx-auto max-w-6xl">
               <div
                 className={`grid items-center gap-8 md:grid-cols-2 md:gap-12 ${
-                  !isEven ? "md:direction-rtl" : ""
+                  !isEven
+                    ? "md:[&>*:first-child]:order-2 md:[&>*:last-child]:order-1"
+                    : ""
                 }`}
               >
-                {/* Image */}
-                <div className={`${!isEven ? "md:order-2" : ""}`}>
-                  <Card className="group overflow-hidden border-border/50 p-0 shadow-sm transition-shadow duration-300 hover:shadow-lg">
-                    <CardContent className="p-0">
-                      <div className="relative aspect-[16/10]">
-                        <Image
-                          src={program.image}
-                          alt={program.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div
-                          className={`absolute inset-0 bg-gradient-to-br ${program.color} opacity-30`}
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
+                <Card className="group overflow-hidden border-border/60 bg-card/90 p-0 shadow-sm transition-shadow duration-300 hover:shadow-lg">
+                  <CardContent className="p-0">
+                    <div className="relative aspect-[16/10]">
+                      <Image
+                        src={program.image}
+                        alt={program.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${program.color} opacity-35`}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
 
-                {/* Content */}
-                <div className={`space-y-5 ${!isEven ? "md:order-1" : ""}`}>
-                  <div className="flex items-center gap-3">
-                    <Badge
-                      variant="outline"
-                      className="border-primary/30 text-xs text-primary"
-                    >
-                      {program.badgeLabel}
-                    </Badge>
-                  </div>
+                <div className="space-y-5">
+                  <Badge
+                    variant="outline"
+                    className="border-primary/40 text-sm font-semibold text-primary"
+                  >
+                    {program.badgeLabel}
+                  </Badge>
 
                   <div>
-                    <h2 className="text-3xl font-bold">{program.title}</h2>
+                    <h2 className="text-4xl font-bold leading-tight md:text-5xl">
+                      {program.title}
+                    </h2>
                     {program.subtitle && (
-                      <p className="mt-1.5 text-sm font-medium text-primary">
+                      <p className="mt-2 text-lg font-semibold leading-8 text-primary/90">
                         {program.subtitle}
                       </p>
                     )}
                   </div>
 
-                  <p className="text-base leading-relaxed text-muted-foreground">
+                  <p className="text-lg font-medium leading-9 text-foreground/85">
                     {program.description}
                   </p>
                 </div>
@@ -166,6 +189,32 @@ export default function ProgramsPage() {
           </section>
         );
       })}
+
+      <section className="bg-muted/30 px-6 py-14 md:px-10 md:py-20">
+        <div className="mx-auto max-w-6xl rounded-3xl border border-primary/25 bg-card/90 p-8 text-center md:p-10">
+          
+          <h3 className="mt-3 text-3xl font-bold leading-tight md:text-4xl">
+            Program kuat lahir dari komunitas yang kuat
+          </h3>
+          <p className="mx-auto mt-3 max-w-3xl text-lg font-medium leading-9 text-foreground/85">
+            Kenali lebih dekat nilai, struktur, dan arah gerak HIMAFI ITB untuk
+            memahami bagaimana setiap program dirancang agar berdampak nyata.
+          </p>
+          <Button
+            asChild
+            className="group mt-6 rounded-full px-6 text-base font-bold"
+          >
+            <Link href="/about" className="inline-flex items-center gap-2">
+              Lihat Profil Lengkap
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                size={18}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+          </Button>
+        </div>
+      </section>
     </main>
   );
 }

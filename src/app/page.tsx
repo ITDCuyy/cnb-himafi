@@ -241,19 +241,20 @@ export default async function HomePage() {
 
         <section className="bg-muted/25 px-6 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-6xl space-y-10">
-            <div className="flex sm:flex-col justify-between gap-5 border-b border-border/50 pb-6 md:flex-row md:items-end">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">
-                  BP 2025/2026
-                </p>
+            <div className="gap-5 border-b border-border/50 pb-6 ">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">
+                BP 2025/2026
+              </p>        
+              <div className="grid grid-cols-1 md:grid-cols-2">
                 <h2 className="mt-2 text-4xl font-bold leading-tight md:text-5xl">
                   Arah kolektif NAKAMA
-                </h2>
-              </div>
-              <p className="max-w-xl text-lg font-medium leading-9 text-foreground/85">
+                </h2>        
+                <p className="max-w-xl text-lg font-medium leading-9 text-foreground/85">
                 Menjaga semangat belajar berkelanjutan dan memperluas
                 keberdampakan HIMAFI ITB melalui sinergi internal dan eksternal.
-              </p>
+                </p>
+              </div>
+              
             </div>
 
             <Card className="border-primary/20 bg-card/90">
@@ -319,19 +320,20 @@ export default async function HomePage() {
 
         <section className="px-6 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-6xl">
-            <div className="mb-8 flex sm:flex-col items-start justify-between gap-4 md:flex-row md:items-end">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">
-                  Galeri
-                </p>
-                <h2 className="mt-2 text-4xl font-bold leading-tight md:text-5xl">
+            <div className="mb-8 gap-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">
+                Galeri
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <p className="mt-2 text-4xl font-bold leading-tight md:text-5xl">
                   Potret perjalanan HIMAFI ITB
-                </h2>
-              </div>
-              <p className="max-w-md text-lg font-medium leading-8 text-foreground/85">
+                </p>
+                <p className="max-w-md text-lg font-medium leading-8 text-foreground/85">
                 Dokumentasi kegiatan yang merepresentasikan semangat belajar,
                 kolaborasi, dan kontribusi HIMAFI ITB.
-              </p>
+                </p>
+              </div>
+              
             </div>
 
             <div className="grid auto-rows-[220px] gap-4 md:grid-cols-3">
