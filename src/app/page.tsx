@@ -57,18 +57,18 @@ const valuesList = [
 ];
 
 const galleryImages = [
-  { src: "/program-unggulan-assets/eureka.avif", alt: "Kegiatan HIMAFI ITB" },
+  { src: "/program-unggulan-assets/eureka.avif", alt: "Eureka HIMAFI ITB" },
   {
     src: "/program-unggulan-assets/hlkk.avif",
-    alt: "Dinamika kepengurusan HIMAFI ITB",
+    alt: "Pengabdian Masyarakat",
   },
   {
     src: "/program-unggulan-assets/is.avif",
-    alt: "Kolaborasi antar elemen HIMAFI ITB",
+    alt: "Intellektuelle Schule",
   },
   {
     src: "/program-unggulan-assets/reactor.avif",
-    alt: "Dokumentasi kegiatan massa HIMAFI ITB",
+    alt: "Kunjugan Baker Hughes",
   },
 ];
 
@@ -189,15 +189,23 @@ export default async function HomePage() {
             </p>
             <div className="mt-8 grid gap-6 md:grid-cols-2">
               {galleryImages.map((image) => (
-                <Card key={image.src} className="overflow-hidden">
+                <Card
+                  key={image.src}
+                  className="group overflow-hidden border-primary/20 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
                   <CardContent className="p-0">
                     <AspectRatio ratio={16 / 10}>
                       <Image
                         src={image.src}
                         alt={image.alt}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-4">
+                        <p className="text-sm font-medium text-white">
+                          {image.alt}
+                        </p>
+                      </div>
                     </AspectRatio>
                   </CardContent>
                 </Card>
