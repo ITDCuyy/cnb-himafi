@@ -1,9 +1,8 @@
 "use client";
+
 import { useState } from "react";
-// 1. Import QRCodeCanvas instead of QRCodeSVG
 import { QRCodeCanvas } from "qrcode.react";
-// 2. Import the Download icon and Info icon
-import { Download, Info } from "lucide-react";
+import { Check, Copy, Download, Info } from "lucide-react";
 import { api } from "~/trpc/react";
 import {
   Card,
@@ -34,6 +33,7 @@ type LinkData = { slug: string; url: string };
 export default function CreateLinkPage() {
   const [slug, setSlug] = useState("");
   const [url, setUrl] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const [showOverwriteModal, setShowOverwriteModal] = useState(false);
   const [pendingLink, setPendingLink] = useState<LinkData | null>(null);
@@ -56,7 +56,6 @@ export default function CreateLinkPage() {
       }
     },
     onError: (error) => {
-      // Handle unexpected errors
       alert(`An unexpected error occurred: ${error.message}`);
       setShowOverwriteModal(false);
     },
@@ -64,7 +63,8 @@ export default function CreateLinkPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFinalLink(null); // Reset previous result
+    setFinalLink(null);
+    setCopied(false);
     createLinkMutation.mutate({ slug, url });
   };
 
@@ -80,22 +80,35 @@ export default function CreateLinkPage() {
     setExistingUrl(null);
   };
 
-  // 3. Add a handler to download the QR code canvas as a PNG
+  const handleCopyLink = async () => {
+    if (!finalLink) return;
+
+    try {
+      await navigator.clipboard.writeText(
+        `https://link.himafiitb.com/${finalLink.slug}`,
+      );
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      alert("Failed to copy link. Please copy it manually.");
+    }
+  };
+
   const handleDownload = () => {
     const canvas = document.getElementById(
       "qr-code-canvas",
     ) as HTMLCanvasElement;
-    if (canvas && finalLink) {
-      const pngUrl = canvas
-        .toDataURL("image/png")
-        .replace("image/png", "image/octet-stream");
-      const downloadLink = document.createElement("a");
-      downloadLink.href = pngUrl;
-      downloadLink.download = `${finalLink.slug}-qr.png`; // e.g., "rickroll-qr.png"
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    }
+    if (!canvas || !finalLink) return;
+
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    const downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `${finalLink.slug}-qr.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
   };
 
   return (
@@ -182,6 +195,14 @@ export default function CreateLinkPage() {
                 <p className="break-all text-sm text-gray-500">
                   Redirects to: {finalLink.url}
                 </p>
+                <Button onClick={handleCopyLink} variant="outline" size="sm">
+                  {copied ? (
+                    <Check className="mr-2 h-4 w-4" />
+                  ) : (
+                    <Copy className="mr-2 h-4 w-4" />
+                  )}
+                  {copied ? "Copied" : "Copy Link"}
+                </Button>
               </AlertDescription>
             </div>
             <div className="ml-auto flex flex-col items-center gap-2 pt-4 sm:pt-0">
@@ -189,7 +210,8 @@ export default function CreateLinkPage() {
                 <QRCodeCanvas
                   id="qr-code-canvas" // Add an ID for selection
                   value={`https://link.himafiitb.com/${finalLink.slug}`}
-                  size={80}
+                  size={1024}
+                  style={{ width: 80, height: 80 }}
                 />
               </div>
               <Button onClick={handleDownload} variant="outline" size="sm">
