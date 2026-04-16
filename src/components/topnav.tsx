@@ -16,6 +16,7 @@ export function TopNav() {
   const { data: session } = useSession();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   const role = session?.user.role ?? "guest"; // Default to 'guest' if no session
 
@@ -25,6 +26,8 @@ export function TopNav() {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
     <header className="sticky top-0 z-50 flex w-full items-center justify-center self-center bg-background/70 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-8 md:px-20">
@@ -103,7 +106,7 @@ export function TopNav() {
 
           {/* Mobile Menu */}
           <div className="lg:hidden">
-            <Sheet>
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
                   <Menu className="h-6 w-6" />
@@ -111,40 +114,64 @@ export function TopNav() {
               </SheetTrigger>
 
               <SheetContent
-                side="left"
+                side="right"
                 className="flex flex-col gap-6 overflow-scroll text-lg font-medium"
               >
                 <SheetTitle>
                   <Link
                     href="/"
+                    onClick={closeMobileMenu}
                     className="flex items-center gap-2 text-lg font-semibold"
                   >
                     <span className="font-bold">HIMAFI ITB</span>
                   </Link>
                 </SheetTitle>
-                <Link href="/about">About</Link>
-                <Link href="/programs">Programs</Link>
-                <Link href="/news">News</Link>
-                <Link href="/blog">Blog</Link>
-                <Link href="/faq">FAQ</Link>
+                <Link href="/about" onClick={closeMobileMenu}>
+                  About
+                </Link>
+                <Link href="/programs" onClick={closeMobileMenu}>
+                  Programs
+                </Link>
+                <Link href="/news" onClick={closeMobileMenu}>
+                  News
+                </Link>
+                <Link href="/blog" onClick={closeMobileMenu}>
+                  Blog
+                </Link>
+                <Link href="/faq" onClick={closeMobileMenu}>
+                  FAQ
+                </Link>
                 {["admin", "member"].includes(role) && (
                   <>
-                    <Link href="/editor" className="font-semibold text-primary">
+                    <Link
+                      href="/editor"
+                      onClick={closeMobileMenu}
+                      className="font-semibold text-primary"
+                    >
                       New Article
                     </Link>
                     <Link
                       href="/editor/manage"
+                      onClick={closeMobileMenu}
                       className="font-semibold text-primary"
                     >
                       Manage Posts
                     </Link>
-                    <Link href="/link" className="font-semibold text-primary">
+                    <Link
+                      href="/link"
+                      onClick={closeMobileMenu}
+                      className="font-semibold text-primary"
+                    >
                       Link shortener
                     </Link>
                   </>
                 )}
                 {["admin"].includes(role) && (
-                  <Link href="/admin" className="font-semibold text-primary">
+                  <Link
+                    href="/admin"
+                    onClick={closeMobileMenu}
+                    className="font-semibold text-primary"
+                  >
                     Admin
                   </Link>
                 )}
